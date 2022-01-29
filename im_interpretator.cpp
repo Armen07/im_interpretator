@@ -55,7 +55,7 @@ int index = 0;
 
 void create(std::vector <std::string>& tokens); 
 
-void unboxing(std::vector <std::string>& tokens);
+void repack(std::vector <std::string>& tokens);
 
 void math(std::vector <std::string>& tokens);
 
@@ -67,7 +67,7 @@ void condition(std::vector <std::string>& tokens);
 
 void traslation(std::string& codie); 
 
-void hishoxutyun();
+void memory();
 
 int main()
 {
@@ -126,12 +126,12 @@ int main()
 
 void create(std::vector <std::string>& tokens)
 {
-    for(int i = 0, jisht = 0; i < tokens.size(); ++i,jisht++)
+    for(int i = 0, ili = 0; i < tokens.size(); ++i, ili++)
     {
         im_lezu I_L;
         I_L.type = tokens[0][0];
         i++;
-        if(jisht > 0)
+        if(ili > 0)
         {
             I_L.name = tokens[i-1];
         }
@@ -239,7 +239,7 @@ void math(std::vector <std::string>& tokens)
     }
 }
 
-void unboxing(std::vector <std::string>& tokens)
+void repack(std::vector <std::string>& tokens)
 {
     for(int j = 1; j < tokens.size(); ++j)
     {
@@ -331,7 +331,7 @@ void declion(std::vector <std::string>& tokens)
     }
 }
 
-void hishoxutyun()
+void memory()
 {
     for(int i = 0; i < im_lezu_var.size(); ++i)
     {
@@ -367,7 +367,7 @@ void tpel(std::vector <std::string>& tokens)
 {
     int i = 0;
     if(tokens[i] == "hani")i++;
-    else if (tokens[i] == "<<<" || tokens[i] == "<<<") { unboxing(tokens); math(tokens); }
+    else if (tokens[i] == "<<<" || tokens[i] == "<<<") { repack(tokens); math(tokens); }
     else
     {
         i++;
@@ -433,7 +433,7 @@ void traslation(std::string& codie)
         }
         if(tokens[0] == "tiv" || tokens[0] == "dubl" || tokens[0] == "bool" || tokens[0] == "kalgotka")
         {
-            unboxing(tokens);
+            repack(tokens);
             math(tokens);
             create(tokens);
         }
@@ -447,11 +447,11 @@ void traslation(std::string& codie)
             bool tmp = true;
             for( ; tmp ; finish++)
             {
-                if(code[finish] == "payqarir")
+                if(code[finish] == "start")
                 {
                     count++;
                 }
-                else if(code[finish] == "handznvecir")
+                else if(code[finish] == "end")
                 {
                     count--;
                 }
@@ -459,7 +459,7 @@ void traslation(std::string& codie)
             }
             finish--;
             index++;
-            unboxing(tokens);
+            repack(tokens);
             math(tokens);
             condition(tokens);
 
@@ -480,11 +480,11 @@ void traslation(std::string& codie)
 		    bool tmp = true;
             for( ; tmp ; finish++)
             {
-                if(code[finish] == "payqarir")
+                if(code[finish] == "start")
                 {
                     count++;
                 }
-                else if(code[finish] == "handznvecir")
+                else if(code[finish] == "end")
                 {
                     count--;
                 }
@@ -497,7 +497,7 @@ void traslation(std::string& codie)
             }
             begin = index;
             tmp = false;
-            unboxing(tokens);
+            repack(tokens);
 		    math(tokens);
 		    condition(tokens);
             if(std::stoi(tokens[2]) == 1) tmp = true;
@@ -522,7 +522,7 @@ void traslation(std::string& codie)
                     if(codie[i] != ' ' && codie[i] != '\0') token += codie[i];
                     else {tokens.push_back(token); token = "";}
                 }
-                unboxing(tokens);
+                repack(tokens);
 			    math(tokens);
 			    condition(tokens);
 
@@ -531,9 +531,9 @@ void traslation(std::string& codie)
             }
             index = finish;
         }
-        else if(tokens[0] == "hishoxutyun")
+        else if(tokens[0] == "memory")
         {
-            hishoxutyun();
+            memory();
         }
         else
         {
@@ -545,7 +545,7 @@ void traslation(std::string& codie)
             }
             if(tmp == true)
             {
-                unboxing(tokens);
+                repack(tokens);
 			    math(tokens);
 			    declion(tokens);
             }
